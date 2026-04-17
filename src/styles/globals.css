@@ -1,0 +1,28 @@
+@import "tailwindcss";
+@config "../../tailwind.config.js";
+
+/* Tokens base do projeto (ajuste quando definir branding final) */
+:root {
+  /* Dark-first tokens */
+  --ni-bg: 11 12 16; /* ink-950 (neutral) */
+  --ni-fg: 248 250 252; /* near-white */
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-ink-950 text-white antialiased;
+}
+
+/* Melhorias globais de tipografia */
+h1, h2, h3, h4 {
+  @apply tracking-tight;
+}
+
+/* Melhor foco para acessibilidade */
+:focus-visible {
+  outline: none;
+}
+
