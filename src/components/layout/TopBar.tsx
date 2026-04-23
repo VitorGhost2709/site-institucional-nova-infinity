@@ -28,7 +28,7 @@ export function TopBar() {
       <Container className="flex flex-col gap-2.5 py-3 text-sm sm:flex-row sm:items-center sm:justify-between sm:gap-8 sm:py-3.5">
         <div className="flex items-center justify-center gap-2.5 sm:justify-start">
           <PhoneIcon />
-          <span className="font-semibold tracking-wide text-white/95">(31) 0000-0000</span>
+          <span className="font-semibold tracking-wide text-white/95">55 74 9915-7166</span>
         </div>
         <div className="flex items-center justify-center gap-2.5 sm:justify-end">
           <MailIcon />
