@@ -19,8 +19,8 @@ export function HeroBanner({ title, subtitle, description, primary, secondary }:
         <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-ink-900 to-transparent" />
       </div>
 
-      <Container className="py-16 sm:py-22">
-        <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
+      <Container className="flex min-h-[calc(100dvh-8rem)] items-center py-10 sm:min-h-[calc(100dvh-10rem)] sm:py-16">
+        <div className="grid w-full gap-12 lg:grid-cols-12 lg:items-center">
           <div className="lg:col-span-7">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-semibold text-white/80 shadow-sm shadow-black/30">
               <span className="h-2 w-2 rounded-full bg-brand-400" />

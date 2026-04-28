@@ -18,14 +18,14 @@ export function Header() {
 
   return (
     <header className="border-b border-white/10 bg-ink-950/70 text-white backdrop-blur supports-[backdrop-filter]:bg-ink-950/50">
-      <Container className="flex h-28 items-center gap-10">
+      <Container className="flex h-20 items-center gap-6 sm:h-24 sm:gap-10 lg:h-28">
         <Link to="/" className="flex items-center gap-3">
           <span className="flex items-center">
             <Logo
               priority
               format="svg"
               tone="onDark"
-              className="h-14 w-auto max-w-[320px] sm:h-16 sm:max-w-[420px] lg:h-20 lg:max-w-[560px]"
+              className="h-12 w-auto max-w-[240px] sm:h-14 sm:max-w-[360px] lg:h-20 lg:max-w-[560px]"
             />
           </span>
         </Link>

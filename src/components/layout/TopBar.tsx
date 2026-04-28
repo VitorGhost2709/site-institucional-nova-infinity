@@ -25,14 +25,23 @@ function MailIcon() {
 export function TopBar() {
   return (
     <div className="border-b border-white/10 bg-ink-950/95 text-white backdrop-blur supports-[backdrop-filter]:bg-ink-950/80">
-      <Container className="flex flex-col gap-2.5 py-3 text-sm sm:flex-row sm:items-center sm:justify-between sm:gap-8 sm:py-3.5">
+      <Container className="flex flex-col gap-2 py-2 text-xs sm:flex-row sm:items-center sm:justify-between sm:gap-8 sm:py-3.5 sm:text-sm">
         <div className="flex items-center justify-center gap-2.5 sm:justify-start">
           <PhoneIcon />
           <span className="font-semibold tracking-wide text-white/95">55 74 9915-7166</span>
         </div>
         <div className="flex items-center justify-center gap-2.5 sm:justify-end">
           <MailIcon />
-          <span className="font-semibold tracking-wide text-white/95">novainfinity@gmail.com</span>
+          <a
+            href="https://mail.google.com/mail/?view=cm&fs=1&to=contato@infinitydistribuicao.com.br"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold tracking-wide text-white/95 underline-offset-4 hover:underline focus-visible:underline"
+            title="Enviar e-mail para a Infinity Distribuição"
+            aria-label="Enviar e-mail para contato@infinitydistribuicao.com.br"
+          >
+            contato@infinitydistribuicao.com.br
+          </a>
         </div>
       </Container>
     </div>

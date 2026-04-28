@@ -10,7 +10,7 @@ export function AppLayout() {
         <TopBar />
         <Header />
       </div>
-      <main className="pt-10">
+      <main>
         <Outlet />
       </main>
       <Footer />
