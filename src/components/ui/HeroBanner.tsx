@@ -52,7 +52,7 @@ export function HeroBanner({ title, subtitle, description, primary, secondary }:
             <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 shadow-sm shadow-black/35">
               <div className="flex items-center gap-3">
                 <span className="grid h-12 w-12 place-items-center rounded-2xl bg-white/5 ring-1 ring-white/15 shadow-sm shadow-black/35">
-                  <Logo format="svg" tone="onDark" className="h-8 w-8 object-contain" />
+                  <Logo format="svg" tone="onDark" preset="inline" className="h-8 w-auto" />
                 </span>
                 <div>
                   <div className="text-sm font-semibold text-white">Operação estruturada</div>

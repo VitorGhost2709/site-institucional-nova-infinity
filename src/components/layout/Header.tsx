@@ -25,7 +25,7 @@ export function Header() {
               priority
               format="svg"
               tone="onDark"
-              className="h-12 w-auto max-w-[240px] sm:h-14 sm:max-w-[360px] lg:h-20 lg:max-w-[560px]"
+              preset="header"
             />
           </span>
         </Link>

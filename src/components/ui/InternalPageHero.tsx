@@ -25,7 +25,7 @@ export function InternalPageHero({ title, description, seoDescription }: Interna
         <Container className="py-14 sm:py-18">
           <div className="max-w-3xl">
             <div className="flex items-center gap-3">
-              <Logo format="svg" tone="onDark" className="h-8 w-auto" />
+              <Logo format="svg" tone="onDark" preset="pageHero" />
               <div className="text-xs font-semibold uppercase tracking-[0.18em] text-white/70">Institucional</div>
             </div>
             <h1 className="mt-3 text-3xl font-semibold tracking-tight text-white sm:text-4xl">{title}</h1>

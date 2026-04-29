@@ -12,7 +12,7 @@ export function Footer() {
       <Container className="py-14">
         <div className="grid gap-10 md:grid-cols-12">
           <div className="md:col-span-5">
-            <Logo format="svg" tone="onDark" className="h-9 w-auto" />
+            <Logo format="svg" tone="onDark" preset="footer" />
             <p className="mt-3 max-w-md text-sm leading-relaxed text-white/70">
               Distribuição com foco em relacionamento comercial, agilidade logística e consistência operacional.
               (texto provisório)
