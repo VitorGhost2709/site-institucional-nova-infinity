@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import emailjs from '@emailjs/browser'
 import { Container } from '../components/layout/Container'
 import { FormField } from '../components/ui/FormField'
 import { InternalPageHero } from '../components/ui/InternalPageHero'
@@ -11,11 +13,95 @@ const EMAIL_FISCAL = 'fiscal@infinitydistribuicao.com.br'
 const EMAIL_OPERACIONAL = 'operacional@infinitydistribuicao.com.br'
 const ADDRESS = 'R. Pequiá, 20 - Vila Suzana, Belo Horizonte - MG, 31260-400'
 
+const EMAILJS_SERVICE_ID = 'service_hkdk4nd'
+const EMAILJS_TEMPLATE_ID = 'template_7fjz1of'
+const EMAILJS_PUBLIC_KEY = '2wjYHS4vODXd6Sqwu'
+
+function validateGmailEmail(value: string) {
+  const normalized = value.trim()
+  const regex = /^[^\s@]+@gmail\.com(\.br)?$/i
+  if (!normalized) return 'Informe um e-mail.'
+  if (/\s/.test(normalized)) return 'E-mail inválido. Não use espaços.'
+  if (!regex.test(normalized)) return 'E-mail inválido.'
+  return ''
+}
+
+function formatPhoneBR(input: string) {
+  const digits = input.replace(/\D/g, '').slice(0, 11)
+  if (digits.length === 0) return ''
+  if (digits.length <= 2) return `(${digits}`
+
+  const ddd = digits.slice(0, 2)
+  const rest = digits.slice(2)
+
+  if (rest.length <= 5) return `(${ddd}) ${rest}`
+
+  const first = rest.slice(0, 5)
+  const last = rest.slice(5)
+  return `(${ddd}) ${first}-${last}`
+}
+
 export function Contato() {
   const mapsQuery = encodeURIComponent(ADDRESS)
   const mapsEmbedSrc = `https://www.google.com/maps?q=${mapsQuery}&output=embed`
   const mapsOpenHref = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`
   const mapsRouteHref = `https://www.google.com/maps/dir/?api=1&destination=${mapsQuery}`
+
+  const [name, setName] = useState('')
+  const [company, setCompany] = useState('')
+  const [phone, setPhone] = useState('')
+  const [email, setEmail] = useState('')
+  const [emailError, setEmailError] = useState('')
+  const [emailTouched, setEmailTouched] = useState(false)
+  const [message, setMessage] = useState('')
+
+  const [isSending, setIsSending] = useState(false)
+  const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    if (isSending) return
+
+    const nextEmailError = validateGmailEmail(email)
+    setEmailTouched(true)
+    setEmailError(nextEmailError)
+    if (nextEmailError) {
+      setFeedback({ type: 'error', text: 'Corrija o e-mail antes de enviar o formulário.' })
+      return
+    }
+
+    setIsSending(true)
+    setFeedback(null)
+
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          name,
+          company,
+          phone,
+          email,
+          message,
+        },
+        { publicKey: EMAILJS_PUBLIC_KEY },
+      )
+
+      setName('')
+      setCompany('')
+      setPhone('')
+      setEmail('')
+      setMessage('')
+      setFeedback({ type: 'success', text: 'Mensagem enviada com sucesso. Nossa equipe retornará em breve.' })
+    } catch {
+      setFeedback({
+        type: 'error',
+        text: 'Não foi possível enviar sua mensagem agora. Tente novamente em instantes ou envie um e-mail para contato@infinitydistribuicao.com.br.',
+      })
+    } finally {
+      setIsSending(false)
+    }
+  }
 
   return (
     <>
@@ -120,27 +206,91 @@ export function Contato() {
                   <div className="text-sm font-semibold text-white">Formulário</div>
                   <p className="mt-2 text-sm text-white/70">Preencha os dados abaixo e nossa equipe retornará em breve.</p>
 
-                  <form className="mt-6 grid gap-4 sm:grid-cols-2">
-                    <FormField label="Nome" name="name" placeholder="Seu nome" autoComplete="name" />
-                    <FormField label="Empresa" name="company" placeholder="Nome da empresa" autoComplete="organization" />
-                    <FormField label="Telefone" name="phone" placeholder="(00) 0000-0000" autoComplete="tel" />
-                    <FormField label="E-mail" name="email" placeholder="seu@email.com" autoComplete="email" />
+                  {feedback ? (
+                    <div
+                      className={[
+                        'mt-5 rounded-2xl border p-4 text-sm shadow-sm shadow-black/25',
+                        feedback.type === 'success'
+                          ? 'border-emerald-400/25 bg-emerald-500/10 text-emerald-100'
+                          : 'border-rose-400/25 bg-rose-500/10 text-rose-100',
+                      ].join(' ')}
+                      role="status"
+                    >
+                      {feedback.text}
+                    </div>
+                  ) : null}
+
+                  <form className="mt-6 grid gap-4 sm:grid-cols-2" onSubmit={handleSubmit}>
+                    <FormField
+                      label="Nome"
+                      name="name"
+                      placeholder="Seu nome"
+                      autoComplete="name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      required
+                    />
+                    <FormField
+                      label="Empresa"
+                      name="company"
+                      placeholder="Nome da empresa"
+                      autoComplete="organization"
+                      value={company}
+                      onChange={(e) => setCompany(e.target.value)}
+                    />
+                    <FormField
+                      label="Telefone"
+                      name="phone"
+                      placeholder="(00) 00000-0000"
+                      autoComplete="tel"
+                      value={phone}
+                      onChange={(e) => setPhone(formatPhoneBR(e.target.value))}
+                      required
+                    />
+                    <FormField
+                      label="E-mail"
+                      name="email"
+                      placeholder="seu@email.com"
+                      autoComplete="email"
+                      value={email}
+                      onChange={(e) => {
+                        const next = e.target.value.replace(/\s/g, '')
+                        setEmail(next)
+                        if (!emailTouched) return
+                        setEmailError(validateGmailEmail(next))
+                      }}
+                      onBlur={() => {
+                        setEmailTouched(true)
+                        setEmailError(validateGmailEmail(email))
+                      }}
+                      required
+                      inputMode="email"
+                      invalid={Boolean(emailError)}
+                      error={emailError}
+                    />
                     <FormField
                       multiline
                       label="Mensagem"
                       name="message"
                       placeholder="Conte rapidamente como podemos ajudar"
                       className="sm:col-span-2"
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      required
                     />
 
                     <div className="sm:col-span-2 flex flex-wrap items-center gap-3 pt-2">
                       <button
-                        type="button"
-                        className="inline-flex items-center justify-center rounded-xl bg-brand-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-950"
+                        type="submit"
+                        disabled={isSending}
+                        className={[
+                          'inline-flex items-center justify-center rounded-xl bg-brand-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-950',
+                          isSending ? 'cursor-not-allowed opacity-70' : 'hover:bg-brand-500',
+                        ].join(' ')}
                       >
-                        Enviar mensagem
+                        {isSending ? 'Enviando...' : 'Enviar mensagem'}
                       </button>
-                      <span className="text-xs text-white/55">* Botão visual nesta versão (sem envio).</span>
+                      <span className="text-xs text-white/55">Responderemos o mais breve possível.</span>
                     </div>
                   </form>
                 </div>
