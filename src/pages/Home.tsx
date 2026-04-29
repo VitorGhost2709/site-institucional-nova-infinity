@@ -5,6 +5,7 @@ import { HeroBanner } from '../components/ui/HeroBanner'
 import { InfoCard } from '../components/ui/InfoCard'
 import { Section } from '../components/ui/Section'
 import { SectionTitle } from '../components/ui/SectionTitle'
+import { WarehouseCarousel } from '../components/ui/WarehouseCarousel'
 import { buildTitle } from '../lib/seo'
 import { copy } from '../content/copy'
 
@@ -54,6 +55,24 @@ export function Home() {
                   description="Modelo pensado para construir relações duradouras em toda a cadeia. (provisório)"
                 />
               </div>
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      {/* 2.1 Nossa estrutura */}
+      <Section>
+        <Container>
+          <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
+            <div className="lg:col-span-5">
+              <SectionTitle
+                eyebrow="ESTRUTURA"
+                title="Conheça nossa operação por dentro"
+                description="Nossa estrutura foi pensada para garantir organização, agilidade e segurança em cada etapa da distribuição."
+              />
+            </div>
+            <div className="lg:col-span-7">
+              <WarehouseCarousel />
             </div>
           </div>
         </Container>
