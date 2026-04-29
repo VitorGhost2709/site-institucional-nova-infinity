@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import type { NavLinkItem } from '../../lib/nav'
 
 type DropdownProps = {
@@ -13,11 +13,6 @@ export function Dropdown({ label, items, className }: DropdownProps) {
   const menuId = `dropdown-${id}`
   const [open, setOpen] = useState(false)
   const rootRef = useRef<HTMLDivElement | null>(null)
-  const location = useLocation()
-
-  useEffect(() => {
-    setOpen(false)
-  }, [location.pathname])
 
   useEffect(() => {
     function onDocPointerDown(e: PointerEvent) {

@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 import { Container } from './Container'
 import { NAV_ITEMS, isNavGroup, type NavGroupItem, type NavLinkItem } from '../../lib/nav'
 import { Logo } from '../brand/Logo'
@@ -8,6 +8,7 @@ import { Dropdown } from '../ui/Dropdown'
 export function Header() {
   const [open, setOpen] = useState(false)
   const [institutionalOpenMobile, setInstitutionalOpenMobile] = useState(false)
+  const location = useLocation()
 
   const items = useMemo(() => NAV_ITEMS, [])
   const institutional = useMemo(
@@ -45,7 +46,9 @@ export function Header() {
             Home
           </NavLink>
 
-          {institutional ? <Dropdown label={institutional.label} items={institutional.children} /> : null}
+          {institutional ? (
+            <Dropdown key={location.pathname} label={institutional.label} items={institutional.children} />
+          ) : null}
 
           {desktopLinks
             .filter((i) => i.to !== '/')
